@@ -1,0 +1,28 @@
+.navbar {
+  background-color: rgb(0,0,0,0) !important;
+}
+.navbar .container{
+  background-color: rgb(0,0,0,0) !important;
+}
+.navbar .container .navbar-brand{
+  color: rgb(173,178,203);
+  padding: 20px;
+  border-radius: 20px ;
+}
+
+a.nav-link.active {
+  color: #fff !important;
+  border-radius: 11px;
+  background-color: #7fcbff75;
+  margin: 0px 10px 0px 0px;
+  padding: 10px;
+}
+
+a.info {
+  color: white;
+  border-radius: 8px;
+  padding: 6px;
+  text-decoration: none;
+  color: currentcolor;
+}
+

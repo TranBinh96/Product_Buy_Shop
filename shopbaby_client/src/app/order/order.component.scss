@@ -1,0 +1,95 @@
+.intro-session {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+.product-header{
+  color: rgb(233,66,176) ;
+}
+.input-info {
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+}
+.action-order {
+  text-align: right;
+  padding: 0px 5px;
+}
+
+.btn-submit {
+  font-size: 27px;
+  width: 200px;
+  border-radius: 38px;
+  padding: 9px;
+  font-weight: bolder;
+}
+.produt-input-info {
+  border: 1px solid #52565b;
+  border-radius: 16px;
+  padding: 0px 20px 1px 20px;
+  margin: 10px 0px 38px;
+  background-color: #25313d;
+}
+.info-order {padding-right: 20px;}
+.product-list_order {padding-left: 20px;}
+
+
+table.table {
+  color: white;
+  border: none;
+  border-radius: 10px;
+  border-collapse: separate;
+  border: 1px solid;
+  padding: 2px 16px 35px 10px;
+  background-color: #0e181545;
+  margin-top: 16px;
+}
+th,td{
+  padding: 10px;
+  text-align: center;
+
+}
+
+
+img.product-img {
+  width: 91px;
+  height: 67px;
+}
+
+td.product-info {
+  display: flex;
+}
+.product-coupon{
+  display: flex;
+}
+
+input.form-control.input-coupon {
+  width: 450px;
+  margin: 0px 14px;
+  background-color: #21252970;
+  height: 50px;
+  color: white;
+}
+input.form-control.input-coupon::placeholder{
+  color: white;
+}
+
+.form-group.product-coupon {
+  justify-content: left;
+  text-align: center;
+}
+
+h4.product-header {
+  font-size: 24px;
+  flex-direction: column;
+}
+.mt-3.productSumPriceBuy {
+  color: #dc3545;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: right;
+}
+
+label.col-form-label.productNamePay {
+  margin-right: 16px;
+}
