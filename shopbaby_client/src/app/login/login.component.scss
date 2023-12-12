@@ -38,7 +38,7 @@
 }
 .fa-regular{
   position: absolute;
-  top: 150%;
+  top: 130%;
   right: 1px;
   transform: translateY(-50px);
   color: rgb(105, 244, 181);
@@ -55,5 +55,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;;
+  margin-top: 20px;
+}
+.form-login.mx-auto {
+  margin: 257px;
+}
+select.form-control.access-right {
+  width: 167px;
+  margin: 18px 3px 22px;
+  background-color: rgb(32, 24, 60);
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(253, 185, 185, 0.5);
+  font-weight: 700;
+  padding: 10px;
+}
+button.login-button {
+  border-radius: 36px;
+  background: linear-gradient(to right, rgb(225, 64, 180), rgb(126, 43, 237));
+  padding: 6px 29px;
+  font-size: 22px;
+  color: #e9f1ee;
+  width: 100%;
+  margin-bottom: 21px;
+  font-weight: 400;
+}
+.form-control::placeholder{
+  color: rgb(32,24,60);
+}
+.divider-nospace-button{
+  height: 1px;
+  background-color: rgb(243, 165, 42);
+  margin: 4px 4px 13px;
+
 }
