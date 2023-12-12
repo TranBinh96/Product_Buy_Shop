@@ -34,8 +34,9 @@ public class CategoryController {
         return  ResponseEntity.ok("Edit complete");
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> removeCategories(@PathVariable Long id){
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> removeCategories(@PathVariable Long id){
+
         return  ResponseEntity.ok("Remove complete"+id);
     }
 

@@ -62,7 +62,7 @@ create  table products(
     name varchar(350) comment 'name product',
     price float not null  check ( price >=0  ),
     thumbnail varchar(300) default  '',
-    description longtext default '',
+    description varchar(350) default '',
     create_at timestamp,
     update_at timestamp,
     category_id int,
