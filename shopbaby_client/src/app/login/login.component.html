@@ -1,0 +1,44 @@
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="form-login mx-auto">
+        <h2 class="login-header">Đăng Nhập</h2>
+        <div class="form-group">
+          <label for="email">Email/Phone</label>
+          <input type="text" id= "email" class="form-control">
+          <div class="divider-nospace"></div>
+        </div>
+        <div class="mt-5"></div>
+        <div class="form-group password-field">
+          <label for="password">Mật Khẩu</label>
+          <input type="password" id= "password" class="form-control" placeholder="Ít nhất 4 ký tự">
+          <i class="fa-regular fa-eye-slash"></i>
+          <div class="divider-nospace"></div>
+        </div>
+        <div class="form-group">
+          <div class="form-check checkbox-text">
+            <span style="display:flex;">
+              <input type="checkbox"  class="form-check-input" id="remember">
+              <label class="form-check-label" for="remember" for="remember">Ghi nhớ mặt khẩu</label>
+            </span>
+            <a href="#" class="register-link">Quên mật khẩu</a>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+          <select class="form-control access-right">
+            <option selected disabled>Quyền Đăng Nhập</option>
+            <option>Người dùng</option>
+            <option>Quản Trị Viên</option>
+          </select>
+      </div>
+      <button type="button" class="login-button">Đăng nhập</button>
+      <div class="divider"></div>
+      <p class="text-center">Bạn Chưa Đăng Ký <span> <a href="#" class="register-link">Tạo tài khoản</a></span></p>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

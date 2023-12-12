@@ -1,0 +1,49 @@
+.container {
+  color: white;
+}
+
+.intro-session {
+  border-radius: 22px;
+  background-color: #282c34;
+  padding: 43px;
+  width: 555px;
+  text-align: center;
+  margin: 0 auto;
+}
+table.table.mt-3 {
+  color: white;
+  border: 1px solid white;
+  border-collapse: inherit;
+  border-radius: 21px;
+  padding: 30px 22px;
+  font-size: 22px;
+  margin: 20px 0px;
+  justify-content: center;
+  text-align: center;
+}
+.product-name{
+  display: flex;
+}
+.product-image{
+  width: 108px;
+  height: 61px;
+  margin-right: 23px;
+}
+td{
+  padding: 20px;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  border-style: none !important;
+}
+button.btn.btn-primary.btnActionContinue {
+  padding: 12px;
+  font-size: 23px;
+  border-radius: 26px;
+  text-align: center;
+}
+
+.actionContinue.mt-3 {
+  margin: 50px auto;
+  text-align: center;
+}
