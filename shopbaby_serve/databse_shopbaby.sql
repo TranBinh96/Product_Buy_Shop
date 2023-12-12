@@ -1,6 +1,16 @@
 create database  shopbabay;
 use  shopbaby;
 
+create table product_images(
+    id int primary key auto_increment,
+    product_id int,
+    name varchar(50),
+        foreign key (product_id)  references products(id),
+        CONSTRAINT fk_product_images_product_id
+        foreign key (product_id) references products(id) on delete cascade,
+    image_url varchar(300)
+);
+
 create table order_details
 (
     id                 int primary key auto_increment,

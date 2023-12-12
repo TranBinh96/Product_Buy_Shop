@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,22 +36,32 @@ public class ProductController {
     }
 
     @PostMapping(value = "",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  ResponseEntity<?> insertPrudct(@Valid @ModelAttribute ProductDTO dto/*, @RequestPart("file")MultipartFile file*/, BindingResult result) throws IOException {
+    public  ResponseEntity<?> insertPrudct(@Valid @ModelAttribute ProductDTO dto,
+                                           BindingResult result) throws IOException {
         if (result.hasErrors()){
             List<String> errorMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
             return ResponseEntity.badRequest().body(errorMessage);
         }
-        MultipartFile file = dto.getFile();
-        if (file != null){
-            if (file.getSize()>10*1024*1024){
-                return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large size 10MB");
-            }
-            String contenttype = file.getContentType();
-            if(contenttype==null || !contenttype.startsWith("image/"))
-                return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File must be an image");
-        }
 
-        String filename = storeFile(file);
+        List<MultipartFile> files = dto.getFiles();
+        files = files ==null ? new ArrayList<MultipartFile>() : files;
+        for (MultipartFile file:files ) {
+            if (file  !=null){
+                if (file.getSize()==0)
+                    continue;
+                if (file.getSize()>10*1024*1024){
+                    return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large size 10MB");
+                }
+                String contenttype = file.getContentType();
+                if(contenttype==null || !contenttype.startsWith("image/"))
+                    return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File must be an image");
+            }
+
+            String filename = storeFile(file);
+            }
+
+
+
         return  ResponseEntity.ok("insert success");
 
     }
