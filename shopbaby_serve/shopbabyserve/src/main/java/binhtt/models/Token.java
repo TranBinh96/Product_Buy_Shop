@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Table(name = "tokens")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class Token {
     private String revoked;
     @Column(name = "expired")
     private  String expired;
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private  User user;
 }

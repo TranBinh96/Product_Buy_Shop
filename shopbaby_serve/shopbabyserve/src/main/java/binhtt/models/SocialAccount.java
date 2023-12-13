@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Table(name = "social_accounts")
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,21 +15,18 @@ import lombok.NoArgsConstructor;
 public class SocialAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long Id;
-    @Column(name = "provider")
-    private  String provider;
+    private Long id;
 
-    @Column(name = "provider_id")
+    @Column(name = "provider", nullable = false, length = 20)
+    private String provider;
+
+    @Column(name = "provider_id", nullable = false, length = 50)
     private String providerId;
 
-    @Column(name = "email",nullable = false)
-    private  String email;
-
-    @Column(name = "name")
+    @Column(name = "name",length = 150)
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private  User user;
+    @Column(name = "email", length = 150)
+    private String email;
 }
 

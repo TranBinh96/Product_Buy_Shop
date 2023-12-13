@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
 @Table(name = "users")
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,9 +42,9 @@ public class User extends BaseEntity{
     @Column(name = "google_account_id")
     private  int googleAccountId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "role_id")
-    private  Role role;
+    private Role role;
 
 
 }
