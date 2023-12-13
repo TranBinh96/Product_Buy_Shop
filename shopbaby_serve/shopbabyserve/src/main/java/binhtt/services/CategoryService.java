@@ -41,7 +41,7 @@ public class CategoryService implements ICategoryService {
     public Category updateCategoryById(long categoryId, CategoryDTO categoryDTO) {
         Category exitsCategor = getCategoryById(categoryId);
         exitsCategor.setName(categoryDTO.getName());
-        return exitsCategor;
+        return categoryRespository.save(exitsCategor);
     }
 
     @Override
