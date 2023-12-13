@@ -1,5 +1,9 @@
 package binhtt.dtos;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -10,8 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 public class CategoryDTO {
     @NotEmpty(message = "not empty name")
-    private  String name;
-    @NotEmpty(message = "not empty address")
-    private  String address;
+    private String name;
 }
 

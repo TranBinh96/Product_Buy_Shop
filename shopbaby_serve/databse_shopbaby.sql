@@ -4,7 +4,6 @@ use  shopbaby;
 create table product_images(
     id int primary key auto_increment,
     product_id int,
-    name varchar(50),
         foreign key (product_id)  references products(id),
         CONSTRAINT fk_product_images_product_id
         foreign key (product_id) references products(id) on delete cascade,
@@ -96,6 +95,7 @@ create table tokens(
     foreign key (user_id) references users(id)
 );
 
+use shopbaby;
 
 create  table users(
     id int AUTO_INCREMENT PRIMARY KEY ,
@@ -108,5 +108,12 @@ create  table users(
     is_active tinyint(1) default 1,
     date_of_birth date,
     facebook_account_id int default 0,
-    google_account_id int default  0
+    google_account_id int default  0,
+    role_id int ,
+    foreign key ("role_id") references roles(id)
+
 );
+
+
+
+

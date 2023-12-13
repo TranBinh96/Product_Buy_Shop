@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/product")
+@RequestMapping("${apiPrefix}/product")
 public class ProductController {
     @GetMapping("")
     public ResponseEntity<String> getAllProduct(@RequestParam("limit") int limit,@RequestParam("page") int page){
