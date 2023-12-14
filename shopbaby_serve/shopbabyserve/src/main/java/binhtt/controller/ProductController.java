@@ -47,7 +47,7 @@ public class ProductController {
         PageRequest pageRequest = PageRequest.of(page,limit,
                 Sort.by("createAt").descending());
         Page<ProductReponse> productPage = productService.getAllProduct(pageRequest);
-        int SumPage = pageRequest.getPageSize();
+        int SumPage = productPage.getTotalPages();
 
         List<ProductReponse> products =  productPage.getContent();
 
@@ -58,16 +58,18 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getByIdProduct(@PathVariable("id") int productId){
-        return  ResponseEntity.ok("Product  id : "+productId);
+    public ResponseEntity<?> getByIdProduct(@PathVariable("id") int productId) throws DataNotFoundException {
+
+        ProductReponse product = productService.getProductReponsetById(productId);
+        return  ResponseEntity.ok(product);
     }
 
 
-    @PostMapping(value = "/generatefakerproduct")
-    public ResponseEntity<String> generateFakerProduct() {
+   /* @PostMapping(value = "/generatefakerproduct")*/
+    private ResponseEntity<String> generateFakerProduct() {
         try{
             Faker faker =new Faker();
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
                 String productName = faker.commerce().productName();
                 if (productService.existsByName(productName)){
                     continue;
@@ -76,9 +78,9 @@ public class ProductController {
                         .name(productName)
                         .price(Float.valueOf(faker.number().numberBetween(0,90_000_00)))
                         .description(faker.lorem().sentence())
-                        .thumbnail(faker.lorem().sentence())
-                        .categoryId(faker.number().numberBetween(5,7))
-                        .build(); ;
+                        .thumbnail("")
+                        .categoryId(faker.number().numberBetween(1,3))
+                        .build();
                 productService.createProduct(productDTO);
             }
         }catch (Exception e){

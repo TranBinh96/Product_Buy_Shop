@@ -34,6 +34,7 @@ public class ProductService implements IProductService {
                 .name(productdto.getName())
                 .price(productdto.getPrice())
                 .thumbnail(productdto.getThumbnail())
+                .description(productdto.getDescription())
                 .category(existsCategory)
                 .build();
 
@@ -74,8 +75,27 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(long id) throws DataNotFoundException {
-        return productReponsitory.findById(id)
-                .orElseThrow(()-> new DataNotFoundException("Found not product with id : "+id));
+
+        return productReponsitory.findById(id).orElseThrow(()-> new DataNotFoundException("Found not product with id : "+id));
+    }
+
+    @Override
+    public ProductReponse getProductReponsetById(long id) throws DataNotFoundException {
+
+        return productReponsitory.findById(id).map(product -> {
+            ProductReponse productReponse = ProductReponse
+                    .builder()
+                    .name(product.getName())
+                    .thumbnail(product.getThumbnail())
+                    .price(product.getPrice())
+                    .description(product.getDescription())
+                    .categoryId(product.getCategory().getId())
+                    .build();
+                    productReponse.setCreateAt(product.getCreateAt());
+                    productReponse.setUpdateAt(product.getUpdateAt());
+
+            return  productReponse;
+                }).orElseThrow(()-> new DataNotFoundException("Found not product with id : "+id));
     }
 
     @Override
