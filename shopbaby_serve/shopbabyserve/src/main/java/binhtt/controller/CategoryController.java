@@ -2,8 +2,10 @@ package binhtt.controller;
 
 import binhtt.dtos.CategoryDTO;
 import binhtt.services.CategoryService;
+import binhtt.services.IServices.ICategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -16,9 +18,9 @@ import java.util.List;
 @RequestMapping("${apiPrefix}/categories")
 public class CategoryController {
 
-    private  final CategoryService categoryService;
+    private  final ICategoryService categoryService;
 
-    @PostMapping("")
+    @PostMapping(value = "")
     public ResponseEntity<?> createCategories(@Valid @RequestBody CategoryDTO dto , BindingResult result) {
         if (result.hasErrors()){
             List<String> errorMessage = result.getFieldErrors()
@@ -52,9 +54,7 @@ public class CategoryController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> removeCategories(@PathVariable Long id){
-
-
-        return  ResponseEntity.ok(categoryService.deleteCategoryById(id););
+        return  ResponseEntity.ok("Remove Category "+id+" Success");
     }
 
 

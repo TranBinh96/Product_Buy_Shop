@@ -1,5 +1,9 @@
-create database  shopbabay;
+create database  shopbaby;
 use  shopbaby;
+
+ALTER SCHEMA `shopbaby` DEFAULT CHARACTER SET UTF8;
+
+ALTER DATABASE shopbaby CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 create table product_images(
     id int primary key auto_increment,
