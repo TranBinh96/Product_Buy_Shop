@@ -43,35 +43,16 @@ public class ProductController {
         return  ResponseEntity.ok("Product  id : "+productId);
     }
 
-    @PostMapping(value = "",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  ResponseEntity<?> insertPrudct(@Valid @ModelAttribute ProductDTO dto,
+    @PostMapping(value = "")
+    public  ResponseEntity<?> insertPrudct(@Valid @RequestBody ProductDTO dto,
                                            BindingResult result) throws IOException {
+        Product newProduct =null;
         try{
             if (result.hasErrors()){
                 List<String> errorMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
                 return ResponseEntity.badRequest().body(errorMessage);
             }
-            Product newProduct = productService.createProduct(dto);
-
-            List<MultipartFile> files = dto.getFiles();
-            files = files ==null ? new ArrayList<MultipartFile>() : files;
-            for (MultipartFile file:files ) {
-                if (file  !=null){
-                    if (file.getSize()==0)
-                        continue;
-                    if (file.getSize()>10*1024*1024){
-                        return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large size 10MB");
-                    }
-                    String contenttype = file.getContentType();
-                    if(contenttype==null || !contenttype.startsWith("image/"))
-                        return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File must be an image");
-                }
-
-               ProductImage productImage = productService.createProductImage(newProduct.getId(), ProductImageDTO
-                        .builder()
-                        .imageUrl(storeFile(file)).build());
-            }
-
+            newProduct = productService.createProduct(dto);
 
         }catch (Exception e){
             return  ResponseEntity.badRequest().body(e.getMessage());
@@ -79,7 +60,41 @@ public class ProductController {
 
 
 
-        return  ResponseEntity.ok("insert success");
+        return  ResponseEntity.ok(newProduct);
+
+    }
+
+    @PostMapping(value = "/uploads/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public  ResponseEntity<?> updateProductImage(@PathVariable("id") long id,@ModelAttribute List<MultipartFile> files) throws IOException {
+     String resultMessage ="";
+       try{
+           Product existsProduct = productService.getProductById(id);
+           List<MultipartFile> lstfile = files;
+           lstfile = files ==null ? new ArrayList<MultipartFile>() : lstfile;
+           for (MultipartFile file:lstfile ) {
+               if (file  !=null){
+                   if (file.getSize()==0)
+                       continue;
+                   if (file.getSize()>10*1024*1024){
+                       return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large size 10MB");
+                   }
+                   String contenttype = file.getContentType();
+                   if(contenttype==null || !contenttype.startsWith("image/"))
+                       return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File must be an image");
+               }
+
+               ProductImage  productImage = productService.createProductImage(existsProduct.getId(), ProductImageDTO
+                       .builder()
+                       .imageUrl(storeFile(file)).build());
+               resultMessage +=productImage.imageUrl+"\n";
+           }
+           return  ResponseEntity.ok(resultMessage);
+
+       }catch (Exception exception){
+           return  ResponseEntity.badRequest().body(exception.getMessage());
+
+       }
+
 
     }
 

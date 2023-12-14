@@ -23,6 +23,6 @@ public interface IProductService {
     boolean existsByName(String name);
 
 
-    ProductImage createProductImage(Long productId,
+    ProductImage createProductImage(long productId,
                                     ProductImageDTO productImageDTO) throws DataNotFoundException, InvalidParamException;
 }

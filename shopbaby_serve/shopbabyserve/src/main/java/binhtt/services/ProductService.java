@@ -27,8 +27,8 @@ public class ProductService implements IProductService {
 
     @Override
     public Product createProduct(ProductDTO productdto) throws DataNotFoundException {
-        Category existsCategory =  categoryRespository.findById(productdto.getCategoryID())
-                .orElseThrow(()-> new DataNotFoundException("Canot find Category with id  "+productdto.getCategoryID()));
+        Category existsCategory =  categoryRespository.findById(productdto.getCategoryId())
+                .orElseThrow(()-> new DataNotFoundException("Canot find Category with id  "+productdto.getCategoryId()));
         Product product = Product.builder()
                 .name(productdto.getName())
                 .price(productdto.getPrice())
@@ -42,8 +42,8 @@ public class ProductService implements IProductService {
     @Override
     public Product updateProduct(long id, ProductDTO productDTO) throws DataNotFoundException {
         Product product = getProductById(id);
-        Category existsCategory = categoryRespository.findById(productDTO.getCategoryID())
-                .orElseThrow(() -> new DataNotFoundException("Found not Category with id  : "+productDTO.getCategoryID()));
+        Category existsCategory = categoryRespository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new DataNotFoundException("Found not Category with id  : "+productDTO.getCategoryId()));
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
         product.setThumbnail(productDTO.getThumbnail());
@@ -75,7 +75,7 @@ public class ProductService implements IProductService {
         return productReponsitory.existsByName(name);
     }
     @Override
-    public ProductImage createProductImage(Long productId,
+    public ProductImage createProductImage(long productId,
                                            ProductImageDTO productImageDTO) throws DataNotFoundException, InvalidParamException {
         Product existsProduct = productReponsitory
                 .findById(productId)

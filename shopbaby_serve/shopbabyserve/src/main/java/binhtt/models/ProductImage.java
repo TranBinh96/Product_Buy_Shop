@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long Id ;
+    public   Long Id ;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    public Product product;
 
     @Column(name = "image_url",length = 300)
-    private  String imageUrl;
+    public  String imageUrl;
 }

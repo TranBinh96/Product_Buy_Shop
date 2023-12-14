@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BaseEntity {
     @Column(name = "create_at")
-    private LocalDateTime create_at;
+    public LocalDateTime create_at;
 
     @Column(name = "update_at")
-    private LocalDateTime update_at ;
+    public LocalDateTime update_at ;
 
     @PrePersist
     public void onCreate() {
