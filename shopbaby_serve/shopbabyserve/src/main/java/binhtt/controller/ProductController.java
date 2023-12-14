@@ -2,12 +2,14 @@ package binhtt.controller;
 
 import binhtt.dtos.ProductDTO;
 import binhtt.dtos.ProductImageDTO;
+import binhtt.exception.DataNotFoundException;
 import binhtt.models.Product;
 import binhtt.models.ProductImage;
 import binhtt.reponse.ProductListReponse;
 import binhtt.reponse.ProductReponse;
 import binhtt.respository.ProductReponsitory;
 import binhtt.services.IServices.IProductService;
+import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -59,6 +61,33 @@ public class ProductController {
     public ResponseEntity<String> getByIdProduct(@PathVariable("id") int productId){
         return  ResponseEntity.ok("Product  id : "+productId);
     }
+
+
+    @PostMapping(value = "/generatefakerproduct")
+    public ResponseEntity<String> generateFakerProduct() {
+        try{
+            Faker faker =new Faker();
+            for (int i = 0; i < 100; i++) {
+                String productName = faker.commerce().productName();
+                if (productService.existsByName(productName)){
+                    continue;
+                }
+                ProductDTO productDTO =ProductDTO.builder()
+                        .name(productName)
+                        .price(Float.valueOf(faker.number().numberBetween(0,90_000_00)))
+                        .description(faker.lorem().sentence())
+                        .thumbnail(faker.lorem().sentence())
+                        .categoryId(faker.number().numberBetween(5,7))
+                        .build(); ;
+                productService.createProduct(productDTO);
+            }
+        }catch (Exception e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("Insert Product Faker Success");
+    }
+
 
     @PostMapping(value = "")
     public  ResponseEntity<?> insertPrudct(@Valid @RequestBody ProductDTO dto,
