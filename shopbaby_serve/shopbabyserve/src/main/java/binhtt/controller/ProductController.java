@@ -4,10 +4,15 @@ import binhtt.dtos.ProductDTO;
 import binhtt.dtos.ProductImageDTO;
 import binhtt.models.Product;
 import binhtt.models.ProductImage;
+import binhtt.reponse.ProductListReponse;
+import binhtt.reponse.ProductReponse;
 import binhtt.respository.ProductReponsitory;
 import binhtt.services.IServices.IProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +31,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -34,8 +40,19 @@ import java.util.UUID;
 public class ProductController {
     private final IProductService productService;
     @GetMapping("")
-    public ResponseEntity<String> getAllProduct(@RequestParam("limit") int limit,@RequestParam("page") int page){
-        return ResponseEntity.ok(String.format("limit %d, Page : %d",limit,page));
+    public ResponseEntity<ProductListReponse> getAllProduct(@RequestParam("page") int page, @RequestParam("limit") int limit){
+
+        PageRequest pageRequest = PageRequest.of(page,limit,
+                Sort.by("createAt").descending());
+        Page<ProductReponse> productPage = productService.getAllProduct(pageRequest);
+        int SumPage = pageRequest.getPageSize();
+
+        List<ProductReponse> products =  productPage.getContent();
+
+        return ResponseEntity.ok(ProductListReponse.builder()
+                .products(products)
+                .totalPage(SumPage)
+                .build());
     }
 
     @GetMapping("/{id}")
@@ -71,10 +88,12 @@ public class ProductController {
            Product existsProduct = productService.getProductById(id);
            List<MultipartFile> lstfile = files;
            lstfile = files ==null ? new ArrayList<MultipartFile>() : lstfile;
+
+           if (lstfile.size() >= ProductImage.MAXIMUM_IMAGE_PER_PRODUCT)
+               return ResponseEntity.badRequest().body("You can only update maximum 5 images");
            for (MultipartFile file:lstfile ) {
                if (file  !=null){
-                   if (file.getSize()==0)
-                       continue;
+
                    if (file.getSize()>10*1024*1024){
                        return  ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large size 10MB");
                    }
@@ -94,26 +113,33 @@ public class ProductController {
            return  ResponseEntity.badRequest().body(exception.getMessage());
 
        }
-
-
     }
 
-    private  String storeFile(MultipartFile file ) throws IOException{
+    private  boolean isImagesFile(MultipartFile file){
 
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        String contactFile = file.getContentType();
+        return   contactFile != null && contactFile.startsWith("image/");
+    }
 
-        String uniqueFileName = UUID.randomUUID().toString()+"_"+filename;
+    private  String storeFile(MultipartFile file ) throws IOException {
+        if (!isImagesFile(file) || file.getOriginalFilename() == null) {
+            throw  new IOException("Please check type file format is .jpg || .png");
+        }
+
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + filename;
 
         Path uploadDir = Paths.get("upload");
 
-        if (!Files.exists(uploadDir)){
+        if (!Files.exists(uploadDir)) {
             Files.createDirectories(uploadDir);
         }
 
-        java.nio.file.Path destination =  Paths.get(uploadDir.toString(),uniqueFileName);
-        Files.copy(file.getInputStream(),destination, StandardCopyOption.REPLACE_EXISTING);
+        java.nio.file.Path destination = Paths.get(uploadDir.toString(), uniqueFileName);
+        Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
-        return  uniqueFileName;
+        return uniqueFileName;
     }
 
 }

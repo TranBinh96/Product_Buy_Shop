@@ -6,6 +6,7 @@ import binhtt.exception.DataNotFoundException;
 import binhtt.exception.InvalidParamException;
 import binhtt.models.Product;
 import binhtt.models.ProductImage;
+import binhtt.reponse.ProductReponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface IProductService {
     Product createProduct(ProductDTO product) throws DataNotFoundException;
     Product updateProduct(long id,ProductDTO product) throws DataNotFoundException;
-    Page<Product> getAllProduct(Pageable pageable);
+    Page<ProductReponse> getAllProduct(Pageable pageable);
 
     Product getProductById(long id) throws DataNotFoundException;
 

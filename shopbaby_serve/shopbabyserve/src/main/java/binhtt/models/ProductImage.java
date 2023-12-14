@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductImage {
+    public static final  int MAXIMUM_IMAGE_PER_PRODUCT =5;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public   Long Id ;

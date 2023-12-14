@@ -7,6 +7,7 @@ import binhtt.exception.InvalidParamException;
 import binhtt.models.Category;
 import binhtt.models.Product;
 import binhtt.models.ProductImage;
+import binhtt.reponse.ProductReponse;
 import binhtt.respository.CategoryRespository;
 import binhtt.respository.ProductImageReponsitory;
 import binhtt.respository.ProductReponsitory;
@@ -53,8 +54,22 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<Product> getAllProduct(Pageable pageable) {
-        return productReponsitory.findAll(pageable);
+    public Page<ProductReponse> getAllProduct(Pageable pageable) {
+
+        return productReponsitory.findAll(pageable).map(product -> {
+              ProductReponse productReponse =   ProductReponse.builder()
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .description(product.getDescription())
+                        .thumbnail(product.getThumbnail())
+                        .categoryId(product.getCategory().getId())
+                        .build();
+            productReponse.setCreateAt(product.getCreateAt());
+            productReponse.setUpdateAt(product.getUpdateAt());
+            return  productReponse;
+        });
+
+
     }
 
     @Override
@@ -88,8 +103,9 @@ public class ProductService implements IProductService {
                 .build();
 
         int size = productImageReponsitory.findByProductId(productId).size();
-        if (size>= 5){
-            throw  new InvalidParamException("Number of images must be <= 5");
+        if (size >= ProductImage.MAXIMUM_IMAGE_PER_PRODUCT){
+            throw  new InvalidParamException("Number of images must be <= "
+                    + ProductImage.MAXIMUM_IMAGE_PER_PRODUCT);
         }
         return productImageReponsitory.save(productImage);
 
