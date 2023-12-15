@@ -48,9 +48,7 @@ public class ProductController {
                 Sort.by("createAt").descending());
         Page<ProductReponse> productPage = productService.getAllProduct(pageRequest);
         int SumPage = productPage.getTotalPages();
-
         List<ProductReponse> products =  productPage.getContent();
-
         return ResponseEntity.ok(ProductListReponse.builder()
                 .products(products)
                 .totalPage(SumPage)
@@ -58,18 +56,20 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getByIdProduct(@PathVariable("id") int productId) throws DataNotFoundException {
+    public ResponseEntity<?> getByIdProduct(@PathVariable("id") int productId) {
+        try{
+            return  ResponseEntity.ok(productService.getProductReponsetById(productId));
 
-        ProductReponse product = productService.getProductReponsetById(productId);
-        return  ResponseEntity.ok(product);
+        }catch (Exception exception){
+            return  ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
-
-   /* @PostMapping(value = "/generatefakerproduct")*/
+    /*@PostMapping(value = "/generatefakerproduct")*/
     private ResponseEntity<String> generateFakerProduct() {
         try{
             Faker faker =new Faker();
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 8000; i++) {
                 String productName = faker.commerce().productName();
                 if (productService.existsByName(productName)){
                     continue;
@@ -79,7 +79,7 @@ public class ProductController {
                         .price(Float.valueOf(faker.number().numberBetween(0,90_000_00)))
                         .description(faker.lorem().sentence())
                         .thumbnail("")
-                        .categoryId(faker.number().numberBetween(1,3))
+                        .categoryId(faker.number().numberBetween(1,898))
                         .build();
                 productService.createProduct(productDTO);
             }
@@ -105,9 +105,6 @@ public class ProductController {
         }catch (Exception e){
             return  ResponseEntity.badRequest().body(e.getMessage());
         }
-
-
-
         return  ResponseEntity.ok(newProduct);
 
     }
@@ -145,6 +142,22 @@ public class ProductController {
 
        }
     }
+
+    //delete product by Id
+
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<?> deleteProduct(@PathVariable("id") long Id ){
+        try{
+            productService.deleteProductbyId(Id);
+           return ResponseEntity.ok("Delete product by id : "+Id+" Success !!!");
+
+        }catch (Exception exception){
+           return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+
+    //update image productImage
 
     private  boolean isImagesFile(MultipartFile file){
 

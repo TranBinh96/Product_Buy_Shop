@@ -1,3 +1,8 @@
+delete  from  categories;
+
+alter  table  categories auto_increment=1;
+
+
 create database  shopbaby;
 use  shopbaby;
 
@@ -29,6 +34,10 @@ create table order_details
 
 
 alter table  orders modify status enum('pending','processing','shipped','delivered','cancelled') comment 'status order';
+
+
+alter  table  orders  add column  create_at date;
+alter  table  orders  add column   update_at date ;
 
 create  table  orders(
     id int primary key  auto_increment,

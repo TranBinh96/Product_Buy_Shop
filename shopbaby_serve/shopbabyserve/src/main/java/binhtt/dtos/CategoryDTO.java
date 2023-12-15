@@ -12,7 +12,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CategoryDTO {
+
     @NotEmpty(message = "not empty name")
     private String name;
 }

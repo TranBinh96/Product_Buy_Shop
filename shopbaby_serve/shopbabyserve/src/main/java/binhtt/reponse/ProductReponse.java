@@ -1,5 +1,6 @@
 package binhtt.reponse;
 
+import binhtt.models.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -21,4 +22,18 @@ public class ProductReponse extends  BaseReponse {
     private String description;
     @JsonProperty("category_id")
     private  long categoryId ;
+
+    public static ProductReponse fromProduct(Product product){
+        ProductReponse productReponse = ProductReponse
+                .builder()
+                .name(product.getName())
+                .thumbnail(product.getThumbnail())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .categoryId(product.getCategory().getId())
+                .build();
+        productReponse.setCreateAt(product.getCreateAt());
+        productReponse.setUpdateAt(product.getUpdateAt());
+        return  productReponse;
+    }
 }

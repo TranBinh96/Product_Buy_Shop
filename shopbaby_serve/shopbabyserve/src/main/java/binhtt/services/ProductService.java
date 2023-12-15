@@ -57,20 +57,7 @@ public class ProductService implements IProductService {
     @Override
     public Page<ProductReponse> getAllProduct(Pageable pageable) {
 
-        return productReponsitory.findAll(pageable).map(product -> {
-              ProductReponse productReponse =   ProductReponse.builder()
-                        .name(product.getName())
-                        .price(product.getPrice())
-                        .description(product.getDescription())
-                        .thumbnail(product.getThumbnail())
-                        .categoryId(product.getCategory().getId())
-                        .build();
-            productReponse.setCreateAt(product.getCreateAt());
-            productReponse.setUpdateAt(product.getUpdateAt());
-            return  productReponse;
-        });
-
-
+        return productReponsitory.findAll(pageable).map(ProductReponse::fromProduct);
     }
 
     @Override
@@ -82,25 +69,14 @@ public class ProductService implements IProductService {
     @Override
     public ProductReponse getProductReponsetById(long id) throws DataNotFoundException {
 
-        return productReponsitory.findById(id).map(product -> {
-            ProductReponse productReponse = ProductReponse
-                    .builder()
-                    .name(product.getName())
-                    .thumbnail(product.getThumbnail())
-                    .price(product.getPrice())
-                    .description(product.getDescription())
-                    .categoryId(product.getCategory().getId())
-                    .build();
-                    productReponse.setCreateAt(product.getCreateAt());
-                    productReponse.setUpdateAt(product.getUpdateAt());
-
-            return  productReponse;
-                }).orElseThrow(()-> new DataNotFoundException("Found not product with id : "+id));
+        return productReponsitory.findById(id).map(ProductReponse::fromProduct)
+                .orElseThrow(()-> new DataNotFoundException("Found not product with id : "+id));
     }
 
     @Override
-    public void deleteProductbyId(Long id) {
-        Optional<Product> existsProduct = productReponsitory.findById(id);
+    public void deleteProductbyId(Long id) throws DataNotFoundException {
+        Optional<Product> existsProduct = Optional.ofNullable(productReponsitory.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Found't Product Id "+id)));
         existsProduct.ifPresent(productReponsitory::delete);
 
     }

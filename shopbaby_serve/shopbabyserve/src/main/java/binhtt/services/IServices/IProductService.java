@@ -21,7 +21,7 @@ public interface IProductService {
 
     ProductReponse getProductReponsetById(long id) throws DataNotFoundException;
 
-    void deleteProductbyId(Long id);
+    void deleteProductbyId(Long id) throws DataNotFoundException;
 
     boolean existsByName(String name);
 

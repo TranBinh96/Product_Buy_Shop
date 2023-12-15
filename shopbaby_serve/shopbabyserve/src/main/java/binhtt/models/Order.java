@@ -1,11 +1,13 @@
 package binhtt.models;
 
+import binhtt.dtos.OrderDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -15,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order {
+public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -34,7 +36,7 @@ public class Order {
     @Column(name = "note")
     private String note;
     @Column(name = "order_date")
-    private LocalDateTime order_date;
+    private Date order_date;
     @Column(name = "status",length = 20)
     private String status;
     @Column(name = "total_money")
@@ -46,7 +48,7 @@ public class Order {
     private String shippingAddress;
 
     @Column(name = "shipping_date")
-    private Date shippingDate;
+    private LocalDate shippingDate;
 
     @Column(name = "tracking_number",length = 100)
     private String trackingNumber;
@@ -56,4 +58,6 @@ public class Order {
 
     @Column(name = "active",length = 1)
     private int active;
+
+
 }

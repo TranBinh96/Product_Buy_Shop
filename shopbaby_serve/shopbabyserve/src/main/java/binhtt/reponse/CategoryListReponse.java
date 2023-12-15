@@ -1,6 +1,6 @@
 package binhtt.reponse;
 
-import binhtt.models.Product;
+import binhtt.dtos.CategoryDTO;
 import lombok.*;
 
 import java.util.List;
@@ -11,11 +11,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class ProductListReponse {
-    private  List<ProductReponse> products;
+public class CategoryListReponse {
+    private  List<CategoryDTO> categorys;
     private  int totalPage;
-
-
-
-
 }

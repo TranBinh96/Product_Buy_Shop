@@ -1,17 +1,23 @@
 package binhtt.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class OrdersDTO {
+@Builder
+public class OrderDTO {
     @JsonProperty("user_id")
     @Min(value = 1,message = "User's ID must be >0")
     private Long userId ;
@@ -35,6 +41,12 @@ public class OrdersDTO {
     @Min(value = 1 ,message ="Total Money must be > 0" )
     private Float totalMoney;
 
+    @JsonProperty("order_date")
+    private Date order_date;
+
+
+    @JsonProperty("shipping_date")
+    private LocalDate shippingDate;
     @JsonProperty("shipping_method")
     private String shippingMethod;
 
