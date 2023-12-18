@@ -65,7 +65,7 @@ public class ProductController {
         }
     }
 
-    /*@PostMapping(value = "/generatefakerproduct")*/
+    @PostMapping(value = "/generatefakerproduct")
     private ResponseEntity<String> generateFakerProduct() {
         try{
             Faker faker =new Faker();
