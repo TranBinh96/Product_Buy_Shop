@@ -10,6 +10,7 @@ import binhtt.respository.OrderReponsitory;
 import binhtt.respository.UserReponsitory;
 import binhtt.services.IServices.IOrderService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -93,28 +94,24 @@ public class OrderService implements IOrderService {
 
     @Override
     public Order updateOrderById(long orderId, OrderDTO orderDTO) throws DataNotFoundException {
+        Order order = orderReponsitory.findById(orderId).orElseThrow(()-> new DataNotFoundException("Found not Order with ID : "+orderId));
         User existsUser =  userReponsitory.findById(orderDTO.getUserId()).orElseThrow(() -> new DataNotFoundException(("Found not User with ID : "+orderDTO.getUserId())));
-        Order order = Order.builder()
-                .Id(orderId)
-                .user(existsUser)
-                .fullname(existsUser.getFullname())
-                .email(orderDTO.getEmail())
-                .phoneNumber(orderDTO.getPhoneNumber())
-                .address(orderDTO.getAddress())
-                .note(orderDTO.getNote())
-                .totalMoney(orderDTO.getTotalMoney())
-                .shippingMethod(orderDTO.getShippingMethod())
-                .shippingAddress(orderDTO.getShippingAddress())
-                .paymentMethod(orderDTO.getPaymentMethod())
-                .build();
+
+        modelMapper.typeMap(OrderDTO.class,Order.class)
+                .addMappings(mapper -> mapper.skip(Order :: setId));
+
+        modelMapper.map(orderDTO,order);
+        order.setUser(existsUser);
         return  orderReponsitory.save(order);
     }
 
     @Override
     public void deleteOrdersById(long orderId) throws DataNotFoundException {
-        Optional<Order> orderOptional = Optional.ofNullable(orderReponsitory
-                .findById(orderId).orElseThrow(() -> new DataNotFoundException("Found not Order Id  : " + orderId)));
-        orderOptional.ifPresent(orderReponsitory::delete);
+        Order order = orderReponsitory.findById(orderId).orElseThrow(null);
+       if (order != null){
+           order.setActive(0);
+           orderReponsitory.save(order);
+       }
     }
 
     @Override

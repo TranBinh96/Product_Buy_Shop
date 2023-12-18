@@ -90,9 +90,8 @@ public class OrderController {
     public ResponseEntity<?> updateOrderByID(@Valid @PathVariable("id") long id ,
                                              @Valid @RequestBody OrderDTO dto){
         try{
-            orderService.updateOrderById(id,dto);
-            return  ResponseEntity.ok(String.format("Update order order %d sucess",id));
-
+           Order order =  orderService.updateOrderById(id,dto);
+           return  ResponseEntity.ok(modelMapper.map(order,OrderDTO.class));
         }catch (Exception  exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

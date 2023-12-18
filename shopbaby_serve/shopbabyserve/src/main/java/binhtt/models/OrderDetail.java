@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderDetail {
+public class OrderDetail extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long Id;
@@ -27,10 +27,11 @@ public class OrderDetail {
     @Column(name = "price")
     private  float price;
 
-    @Column(name = "numberOfProducts")
-    private int number_of_products;
+    @Column(name = "number_of_products")
+    private int numberOfProducts;
 
     @Column(name = "color")
     private String color;
+
 
 }

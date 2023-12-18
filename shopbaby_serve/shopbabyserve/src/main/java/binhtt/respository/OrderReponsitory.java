@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface OrderReponsitory extends JpaRepository<Order,Long> {
     List<Order> findByUserId(Long userId);
-
     boolean existsById(long Id);
     boolean existsOrderByEmail(String email);
     boolean existsOrderByFullname(String fullname);
