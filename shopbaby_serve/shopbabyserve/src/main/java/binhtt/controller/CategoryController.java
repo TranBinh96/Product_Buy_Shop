@@ -27,7 +27,7 @@ public class CategoryController {
 
     private  final ICategoryService categoryService;
 
-    @PostMapping(value = "")
+    @PostMapping(value = "",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCategories(@Valid @RequestBody CategoryDTO dto , BindingResult result) {
         if (result.hasErrors()){
             List<String> errorMessage = result.getFieldErrors()
@@ -73,7 +73,7 @@ public class CategoryController {
         return  ResponseEntity.ok("Remove Category "+id+" Success");
     }
 
-    @PostMapping(value = "generatefakercategory")
+   /* @PostMapping(value = "generatefakercategory")*/
     public  ResponseEntity<?> generateFakerCategory(){
         Faker faker  = new Faker();
         for (int i=0; i<1000;i++){
