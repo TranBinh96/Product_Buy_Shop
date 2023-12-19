@@ -1,5 +1,23 @@
-create database  shopbabay;
+delete  from  categories;
+
+alter  table  categories auto_increment=1;
+
+
+create database  shopbaby;
 use  shopbaby;
+
+ALTER SCHEMA `shopbaby` DEFAULT CHARACTER SET UTF8;
+
+ALTER DATABASE shopbaby CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create table product_images(
+    id int primary key auto_increment,
+    product_id int,
+        foreign key (product_id)  references products(id),
+        CONSTRAINT fk_product_images_product_id
+        foreign key (product_id) references products(id) on delete cascade,
+    image_url varchar(300)
+);
 
 create table order_details
 (
@@ -16,6 +34,10 @@ create table order_details
 
 
 alter table  orders modify status enum('pending','processing','shipped','delivered','cancelled') comment 'status order';
+
+
+alter  table  orders  add column  create_at date;
+alter  table  orders  add column   update_at date ;
 
 create  table  orders(
     id int primary key  auto_increment,
@@ -52,7 +74,7 @@ create  table products(
     name varchar(350) comment 'name product',
     price float not null  check ( price >=0  ),
     thumbnail varchar(300) default  '',
-    description longtext default '',
+    description varchar(350) default '',
     create_at timestamp,
     update_at timestamp,
     category_id int,
@@ -86,6 +108,7 @@ create table tokens(
     foreign key (user_id) references users(id)
 );
 
+use shopbaby;
 
 create  table users(
     id int AUTO_INCREMENT PRIMARY KEY ,
@@ -98,5 +121,12 @@ create  table users(
     is_active tinyint(1) default 1,
     date_of_birth date,
     facebook_account_id int default 0,
-    google_account_id int default  0
+    google_account_id int default  0,
+    role_id int ,
+    foreign key ("role_id") references roles(id)
+
 );
+
+
+
+
