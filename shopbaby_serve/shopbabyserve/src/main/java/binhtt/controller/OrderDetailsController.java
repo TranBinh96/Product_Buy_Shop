@@ -1,9 +1,14 @@
 package binhtt.controller;
 
 import binhtt.dtos.OrderDetailsDTO;
+import binhtt.reponse.OrderDetailListReponse;
+import binhtt.reponse.OrderDetailReponse;
 import binhtt.services.OrderDetaiService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -19,10 +24,23 @@ public class OrderDetailsController {
     @GetMapping("")
     public ResponseEntity<?> getAllOrderDetails(@Valid @RequestParam("page") int page,@RequestParam("limit") int limit){
 
-        return  ResponseEntity.ok(String.format("Get success  Page: %d, Limit %d",page,limit));
+        PageRequest pageRequest = PageRequest.of(page,limit, Sort.by("createAt").descending());
+
+        Page<OrderDetailReponse> orderDetailPageReponses = orderDetaiService.orderGetAllDetails(pageRequest);
+
+        int sumTotal =  orderDetailPageReponses.getTotalPages();
+
+        List<OrderDetailReponse> orderDetailReponses = orderDetailPageReponses.getContent();
+
+
+
+        return  ResponseEntity.ok(OrderDetailListReponse
+                .builder()
+                .orderDetais(orderDetailReponses)
+                .totalPage(sumTotal).build());
     }
-    @GetMapping("/order/{orderid}")
-    public ResponseEntity<?> getByIdOrderDetails(@Valid @PathVariable("orderId") long orderId){
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<?> getByIdOrderDetails(@PathVariable("orderId") long orderId){
         try {
             return ResponseEntity.ok(orderDetaiService.getAllOrderDetailByOrderId(orderId));
         }catch (Exception exception){

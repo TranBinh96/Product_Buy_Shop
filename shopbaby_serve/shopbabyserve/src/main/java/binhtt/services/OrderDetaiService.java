@@ -12,6 +12,8 @@ import binhtt.respository.ProductReponsitory;
 import binhtt.services.IServices.IOrderDetailService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class OrderDetaiService implements IOrderDetailService {
                 .product(product)
                 .price(orderDetailsDTO.getPrice())
                 .numberOfProducts(orderDetailsDTO.getNumberOfProducts())
+                .totalMoney(orderDetailsDTO.getPrice()*orderDetailsDTO.getNumberOfProducts())
                 .color(orderDetailsDTO.getColor())
                 .build();
         orderDetailReponsitory.save(orderDetail);
@@ -69,6 +72,7 @@ public class OrderDetaiService implements IOrderDetailService {
         orderDetail.setProduct(product);
         orderDetail.setNumberOfProducts(orderDetailsDTO.getNumberOfProducts());
         orderDetail.setPrice(orderDetailsDTO.getPrice());
+        orderDetail.setTotalMoney((orderDetailsDTO.getPrice()*orderDetailsDTO.getNumberOfProducts()));
         orderDetail.setColor(orderDetail.getColor());
         orderDetailReponsitory.save(orderDetail);
 
@@ -97,10 +101,13 @@ public class OrderDetaiService implements IOrderDetailService {
             for (OrderDetail orderDetail:orderDetails) {
                 orderDetailsDetailReponses.add(OrderDetailReponse.fromOrderDetail(orderDetail));
             }
-
-
         }
         return orderDetailsDetailReponses;
 
+    }
+
+    @Override
+    public Page<OrderDetailReponse> orderGetAllDetails(PageRequest pageRequest) {
+        return orderDetailReponsitory.findAll(pageRequest).map(OrderDetailReponse::fromOrderDetail);
     }
 }

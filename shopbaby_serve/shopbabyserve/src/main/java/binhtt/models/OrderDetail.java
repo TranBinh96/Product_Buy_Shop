@@ -27,6 +27,9 @@ public class OrderDetail extends BaseEntity{
     @Column(name = "price")
     private  float price;
 
+    @Column(name = "total_money")
+    private Float totalMoney;
+
     @Column(name = "number_of_products")
     private int numberOfProducts;
 

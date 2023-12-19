@@ -41,7 +41,7 @@ public class OrderDetailReponse extends  BaseReponse {
                 .productId(orderDetail.getProduct().getId())
                 .price(orderDetail.getPrice())
                 .numberOfProducts(orderDetail.getNumberOfProducts())
-                .totalMoney(orderDetail.getNumberOfProducts()*orderDetail.getPrice())
+                .totalMoney(orderDetail.getTotalMoney())
                 .color(orderDetail.getColor())
                 .build();
         orderDetailReponse.setCreateAt(orderDetail.getCreateAt());

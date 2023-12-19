@@ -22,6 +22,7 @@ public class OrderDetailsDTO {
     private long productId;
     @JsonProperty("price")
     private Float price ;
+
     @JsonProperty("number_of_products")
     private int numberOfProducts;
     @JsonProperty("color")
