@@ -38,7 +38,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${apiPrefix}/product")
+@RequestMapping("${apiPrefix}/products")
 public class ProductController {
     private final IProductService productService;
     @GetMapping("")
