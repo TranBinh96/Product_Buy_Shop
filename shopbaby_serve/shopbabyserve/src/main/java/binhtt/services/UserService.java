@@ -33,24 +33,17 @@ public class UserService implements IUserService {
         if (userReponsitory.existsByPhoneNumber(userdto.getPhoneNumber())){
             throw  new DataIntegrityViolationException("Phone Number already exits");
         }
-        User user = User
-                .builder()
-                .fullname(userdto.getFullName())
-                .phoneNumber(userdto.getPhoneNumber())
-                .phoneNumber(userdto.getPhoneNumber())
-                .dateOfBirth(userdto.getDateOfBirthday())
-                .address(userdto.getAddress())
-                .facebookAccountId(userdto.getFacebookAccountId())
-                .googleAccountId(userdto.getGoogleAccountId())
-                .build();
-
         Role role = roleReponsitory.findById(userdto.getRoleId())
                 .orElseThrow(()-> new DataNotFoundException("Role Not Found") );
-        user.setRole(role);
+        if (role.getName().toUpperCase().equals(Role.ADMIN)){
+            throw  new DataNotFoundException("You can create user with role ID : "+Role.ADMIN);
+        }
+        User user = User.fromUser(userdto,role);
 
         if (userdto.getGoogleAccountId() == 0 && userdto.getFacebookAccountId()==0){
             user.setPassword(passwordEncoder.encode(userdto.getPassword()));
         }
+
         return userReponsitory.save(user);
     }
 

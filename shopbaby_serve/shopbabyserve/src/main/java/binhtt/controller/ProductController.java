@@ -43,7 +43,6 @@ public class ProductController {
     private final IProductService productService;
     @GetMapping("")
     public ResponseEntity<ProductListReponse> getAllProduct(@RequestParam("page") int page, @RequestParam("limit") int limit){
-
         PageRequest pageRequest = PageRequest.of(page,limit,
                 Sort.by("createAt").descending());
         Page<ProductReponse> productPage = productService.getAllProduct(pageRequest);

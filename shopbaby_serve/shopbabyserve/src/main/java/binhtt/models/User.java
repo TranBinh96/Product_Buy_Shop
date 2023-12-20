@@ -1,5 +1,6 @@
 package binhtt.models;
 
+import binhtt.dtos.UsersDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,13 +55,25 @@ public class User extends BaseEntity implements UserDetails {
     private Role role;
 
 
+    public  static  User fromUser(UsersDTO userdto, Role role){
+       return  User.builder()
+                .fullname(userdto.getFullName())
+                .phoneNumber(userdto.getPhoneNumber())
+                .phoneNumber(userdto.getPhoneNumber())
+                .dateOfBirth(userdto.getDateOfBirthday())
+                .address(userdto.getAddress())
+                .role(role)
+                .facebookAccountId(userdto.getFacebookAccountId())
+                .googleAccountId(userdto.getGoogleAccountId())
+                .build();
+    }
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authoritieList =  new ArrayList<>();
         authoritieList.add(new SimpleGrantedAuthority("ROLE_"+getRole().getName() ));
-        this.getRole();
-
-
         return authoritieList;
     }
 
