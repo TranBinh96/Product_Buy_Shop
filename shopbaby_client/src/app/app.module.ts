@@ -8,6 +8,7 @@ import { OrderconfirmComponent } from './orderconfirm/orderconfirm.component';
 import { LoginComponent } from './login/login.component';
 import {DetailProductComponent} from "./detail-product/detail-product.component";
 import {RegisterComponent} from "./register/register.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {RegisterComponent} from "./register/register.component";
 
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, FormsModule
   ],
   providers: [],
   bootstrap: [ RegisterComponent  ]
