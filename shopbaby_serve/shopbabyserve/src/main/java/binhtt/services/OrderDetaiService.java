@@ -73,7 +73,7 @@ public class OrderDetaiService implements IOrderDetailService {
         orderDetail.setNumberOfProducts(orderDetailsDTO.getNumberOfProducts());
         orderDetail.setPrice(orderDetailsDTO.getPrice());
         orderDetail.setTotalMoney((orderDetailsDTO.getPrice()*orderDetailsDTO.getNumberOfProducts()));
-        orderDetail.setColor(orderDetail.getColor());
+        orderDetail.setColor(orderDetailsDTO.getColor());
         orderDetailReponsitory.save(orderDetail);
 
         return OrderDetailReponse.fromOrderDetail(orderDetail);

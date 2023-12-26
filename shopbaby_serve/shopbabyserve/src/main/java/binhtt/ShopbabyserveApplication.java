@@ -7,12 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ShopbabyserveApplication {
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(ShopbabyserveApplication.class, args);
     }

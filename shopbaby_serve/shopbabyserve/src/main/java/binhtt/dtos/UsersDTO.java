@@ -2,10 +2,10 @@ package binhtt.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +20,7 @@ public class UsersDTO {
    @NotBlank(message = "Phone number is required")
    private  String phoneNumber;
 
+   @JsonProperty("address")
    private String address;
 
    @NotBlank(message = "Password can't be blank ")
@@ -29,7 +30,7 @@ public class UsersDTO {
    private  String retypePassword;
 
    @JsonProperty("date_of_birthday")
-   private LocalDateTime dateOfBirthday;
+   private Date dateOfBirthday;
 
    @JsonProperty("facebook_account_id")
    private int facebookAccountId;
@@ -38,7 +39,6 @@ public class UsersDTO {
    private  int googleAccountId;
 
    @JsonProperty("role_id")
-   @NotBlank(message = "role id number is required")
-   private Long roleId;
+   private long roleId;
 
 }

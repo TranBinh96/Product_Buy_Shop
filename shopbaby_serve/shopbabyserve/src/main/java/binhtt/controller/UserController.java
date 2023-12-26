@@ -33,18 +33,21 @@ public class UserController {
         return  ResponseEntity.ok(String.format("Insert Success : "+dto.getPhoneNumber()));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public  ResponseEntity<?>  loginSystem(@Valid @RequestBody UserLoginDTO dto, BindingResult result){
         try{
             if (result.hasErrors()){
                 List<String> errorMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
                 return ResponseEntity.badRequest().body(errorMessage);
             }
+            String token = userService.login(dto.getPhoneNumber(),dto.getPassword());
+            return  ResponseEntity.ok(token);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
-
         }
 
-        return  ResponseEntity.ok(String.format("OK"));
+
+
+
     }
 }

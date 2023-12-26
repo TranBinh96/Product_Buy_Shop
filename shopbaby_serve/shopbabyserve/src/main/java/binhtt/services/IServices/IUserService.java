@@ -6,5 +6,5 @@ import binhtt.models.User;
 
 public interface IUserService {
         User createUser(UsersDTO userdto) throws DataNotFoundException;
-        String login(String phone,String password);
+        String login(String phone, String password) throws Exception;
 }
