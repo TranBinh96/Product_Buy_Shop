@@ -123,8 +123,8 @@ create  table users(
     facebook_account_id int default 0,
     google_account_id int default  0,
     role_id int ,
+    PRIMARY KEY(id),
     foreign key ("role_id") references roles(id)
-
 );
 
 

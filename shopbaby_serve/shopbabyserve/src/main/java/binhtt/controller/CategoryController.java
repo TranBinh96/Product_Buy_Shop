@@ -73,7 +73,7 @@ public class CategoryController {
         return  ResponseEntity.ok("Remove Category "+id+" Success");
     }
 
-   /* @PostMapping(value = "generatefakercategory")*/
+    @PostMapping(value = "generatefakercategory")
     public  ResponseEntity<?> generateFakerCategory(){
         Faker faker  = new Faker();
         for (int i=0; i<1000;i++){
