@@ -46,6 +46,7 @@ export class RegisterComponent {
   }
 
   checkAge(){
+   
     const today = new Date();
     const  birthDate  = new Date(this.dateOfBirth);
     let age  = today.getFullYear() - birthDate.getFullYear();
