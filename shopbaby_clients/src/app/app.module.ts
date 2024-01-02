@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'; 
 
 @NgModule({
   declarations: [
@@ -21,7 +23,7 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     DetailProductComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,FormsModule,HttpClientModule
   ],
   providers: [],
   bootstrap: [RegisterComponent]
